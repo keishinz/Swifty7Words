@@ -76,6 +76,8 @@ class ViewController: UIViewController {
         
         let buttonsView = UIView()
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.layer.borderWidth = 1
+        buttonsView.layer.borderColor = UIColor.green.cgColor
         view.addSubview(buttonsView)
         
         NSLayoutConstraint.activate([
@@ -139,6 +141,9 @@ class ViewController: UIViewController {
                 // calculate the frame of this button using its column and row
                 let frame = CGRect(x: col * width, y: row * height, width: width, height: height)
                 letterButton.frame = frame
+                
+                letterButton.layer.borderWidth = 1
+                letterButton.layer.borderColor = UIColor.lightGray.cgColor
 
                 // add it to the buttons view
                 buttonsView.addSubview(letterButton)
@@ -191,10 +196,17 @@ class ViewController: UIViewController {
                 ac.addAction(UIAlertAction(title: "Let's go!", style: .default, handler: levelUp))
                 present(ac, animated: true, completion: nil)
             }
+        } else {
+            let ac = UIAlertController(title: "Wrong answer.", message: "Please try another word.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Try again.", style: .default, handler: {
+                (action: UIAlertAction!) -> Void in
+                self.clearTapped(nil)
+            }))
+            present(ac, animated: true, completion: nil)
         }
     }
 
-    @objc func clearTapped(_ sender: UIButton) {
+    @objc func clearTapped(_ sender: UIButton?) {
         currentAnswer.text = ""
         
         for button in activatedButtons {
@@ -218,7 +230,7 @@ class ViewController: UIViewController {
                     let answer = parts[0]
                     let clue = parts[1]
                     
-                    clueString += "\(index+1).\(clue)\n"
+                    clueString += "\(index + 1). \(clue)\n"
 
                     let solutionWord = answer.replacingOccurrences(of: "|", with: "")
                     solutionString += "\(solutionWord.count) letters\n"
