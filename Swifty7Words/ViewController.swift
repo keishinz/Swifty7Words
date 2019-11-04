@@ -189,7 +189,7 @@ class ViewController: UIViewController {
                     clueString += "\(index+1).\(clue)\n"
 
                     let solutionWord = answer.replacingOccurrences(of: "|", with: "")
-                    solutionString = "\(solutionWord.count) letters\n"
+                    solutionString += "\(solutionWord.count) letters\n"
                     solutions.append(solutionWord)
                     
                     let bits = answer.components(separatedBy: "|")
